@@ -29,16 +29,26 @@ void setup()                    // run once, when the sketch starts
 
 void loop()                     // run over and over again
 {
+  
   DrawPx(xpear,ypear,Green); 
   DrawPx(xdot,ydot,Blue);
+  
   while (xpear == xdot && ypear == ydot)
   {      
     xdot = random(8);
     ydot = random(8);
   }
+  // Have eaten pear
+  if (ReadPx(xdot,ydot)==Green)
+  while (boolean gotpear=true);
+  {
+    xpear=random(8);
+    ypear=random(8);
+  }
+  update();
   DisplaySlate();
   delay(speed);
-  CheckButtonsPress();
+  CheckButtonsDown();
   ClearSlate();
    if (Button_Right)
   {
@@ -65,15 +75,15 @@ void update()
 // Move dot
 if (direction == 0)
 {
-  ydot = ydot+1
+  ydot = ydot+1;
   if (ydot >7)
   {
-    ydot=0:
+    ydot=0;
   } 
 }
 if (direction == 90)
 {
-  xdot = xdot+1
+  xdot = xdot+1;
   if (xdot >7)
   {
     xdot=0;
@@ -81,7 +91,7 @@ if (direction == 90)
 }
 if (direction == 180)
 {
-  ydot= ydot-1
+  ydot= ydot-1;
   if (ydot <0)
   {
    ydot=7; 
@@ -94,5 +104,6 @@ if (direction == 270)
   {
     xdot=7;
   }
+
 }
 }
