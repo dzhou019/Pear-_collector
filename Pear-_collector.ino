@@ -24,7 +24,6 @@ int speed = 350;
 int timer = 0;
 int direction;
 boolean gotpear=false;
-boolean gameover=false;
 void setup()                    // run once, when the sketch starts
 {
   MeggyJrSimpleSetup();      // Required code, line 2 of 2.
@@ -32,10 +31,10 @@ void setup()                    // run once, when the sketch starts
 
 void loop()                     // run over and over again
 {
-  if (gameover = false)
+  
   DrawPx(xpear,ypear,Green); 
   DrawPx(xdot,ydot,Blue);
-  DrawPx(xbomb,ybomb,0);
+  DrawPx(xbomb,ybomb,Red);
 
   
   while (xpear == xdot && ypear == ydot)        
@@ -45,8 +44,8 @@ void loop()                     // run over and over again
   }
   while (xpear == xbomb && ypear == ybomb)      
   {
-    xpear = random(8);
-    ypear = random(8);                         
+    xbomb = random(8);
+    ybomb = random(8);                         
   }
   while (xdot == xbomb && ydot == ybomb)
   {
@@ -88,16 +87,7 @@ void loop()                     // run over and over again
   {
      direction=270;
   }
-  else
-  {
-   // Game over function goes here
-   void gameoverscreen()
-   {
-   
-   }
-    
-  }
- 
+
 }
 
 void update()
