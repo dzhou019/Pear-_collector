@@ -18,10 +18,13 @@ int xpear = random(8);
 int ypear = random(8);
 int xdot = random(8);
 int ydot = random(8);
+int xbomb = random(8);            // Draws out the enemy bomb
+int ybomb = random(8);
 int speed = 350;
 int timer = 0;
 int direction;
-boolean gotpear=true;
+boolean gotpear=false;
+boolean gameover=false;
 void setup()                    // run once, when the sketch starts
 {
   MeggyJrSimpleSetup();      // Required code, line 2 of 2.
@@ -29,15 +32,34 @@ void setup()                    // run once, when the sketch starts
 
 void loop()                     // run over and over again
 {
-  
+  if (gameover = false)
   DrawPx(xpear,ypear,Green); 
   DrawPx(xdot,ydot,Blue);
+  DrawPx(xbomb,ybomb,0);
+
   
-  while (xpear == xdot && ypear == ydot)
+  while (xpear == xdot && ypear == ydot)        
   {      
+    xdot = random(8);        
+    ydot = random(8);
+  }
+  while (xpear == xbomb && ypear == ybomb)      
+  {
+    xpear = random(8);
+    ypear = random(8);                         
+  }
+  while (xdot == xbomb && ydot == ybomb)
+  {
     xdot = random(8);
     ydot = random(8);
   }
+  // touched bomb
+  if (ReadPx(xdot,ydot)==0)
+  {
+    boolean gameover=true;
+  }
+  
+  
   // Have eaten pear
   if (ReadPx(xdot,ydot)==Green)
   while (boolean gotpear=true);
@@ -66,7 +88,15 @@ void loop()                     // run over and over again
   {
      direction=270;
   }
-  
+  else
+  {
+   // Game over function goes here
+   void gameoverscreen()
+   {
+   
+   }
+    
+  }
  
 }
 
