@@ -26,7 +26,8 @@ int direction;
 boolean gotpear=false;
 void setup()                    // run once, when the sketch starts
 {
-  MeggyJrSimpleSetup();      // Required code, line 2 of 2.
+  MeggyJrSimpleSetup(); 
+                      // Required code, line 2 of 2.
 }
 
 void loop()                     // run over and over again
