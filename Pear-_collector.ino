@@ -20,57 +20,78 @@ int xdot = random(8);
 int ydot = random(8);
 int xbomb = random(8);            // Draws out the enemy bomb
 int ybomb = random(8);
-int speed = 350;
+int xwall = random(8);
+int ywall = random(8);
+int speed = 200;
 int timer = 0;
+int dir;
+//int xgap = random(7-xwall);
+int xgap = 2;
+//int ygap = random(7-ywall);
+int ygap = 5;
 int direction;
-boolean gotpear=false;
+boolean gotpear=true;
 void setup()                    // run once, when the sketch starts
 {
   MeggyJrSimpleSetup(); 
-                      // Required code, line 2 of 2.
+  Serial.begin(9600);                    // Required code, line 2 of 2.
 }
 
 void loop()                     // run over and over again
 {
-  
+                  
+  DrawPx(xwall,ywall,Orange);     // Spawwn random walls and have them make other walls                             
+  int dir;
+  int choice = random(2);  
+  if (choice == 1)   
+     dir = 0;
+     {
+      for (int i=0 ;i < xgap; i++)
+      {
+        DrawPx(xwall + i,ywall,Orange);
+        Serial.print(xgap);
+        Serial.print("  ");
+        Serial.println(i);
+      }
+     }   
+  if (choice == 2)
+     dir = 90;
+     {
+      for (int i=0; i< ygap; i++)
+      DrawPx(xwall,ywall + i,Orange);
+     }
   DrawPx(xpear,ypear,Green); 
   DrawPx(xdot,ydot,Blue);
   DrawPx(xbomb,ybomb,Red);
 
   
-  while (xpear == xdot && ypear == ydot)        
+  if (xpear == xdot && ypear == ydot)        
   {      
     xdot = random(8);        
     ydot = random(8);
   }
-  while (xpear == xbomb && ypear == ybomb)      
+  if (xpear == xbomb && ypear == ybomb)      
   {
     xbomb = random(8);
     ybomb = random(8);                         
   }
-  while (xdot == xbomb && ydot == ybomb)
+  if (xdot == xbomb && ydot == ybomb)
   {
     xdot = random(8);
     ydot = random(8);
   }
-  // touched bomb
-  if (ReadPx(xdot,ydot)==0)
-  {
-    boolean gameover=true;
-  }
-  
+ 
   
   // Have eaten pear
   if (ReadPx(xdot,ydot)==Green)
-  while (boolean gotpear=true);
   {
     xpear=random(8);
     ypear=random(8);
   }
-  update();
+  update();            
   DisplaySlate();
   delay(speed);
-  CheckButtonsDown();
+  CheckButtonsPress();
   ClearSlate();
    if (Button_Right)
   {
