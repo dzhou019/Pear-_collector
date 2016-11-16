@@ -28,7 +28,7 @@ int dir;
 //int xgap = random(7-xwall);
 int xgap = 2;
 //int ygap = random(7-ywall);
-int ygap = 5;
+int ygap = 4;
 int direction;
 boolean gotpear=true;
 void setup()                    // run once, when the sketch starts
@@ -89,9 +89,9 @@ void loop()                     // run over and over again
     ypear=random(8);
   }
   update();            
-  DisplaySlate();
   delay(speed);
   CheckButtonsPress();
+  DisplaySlate();
   ClearSlate();
    if (Button_Right)
   {
