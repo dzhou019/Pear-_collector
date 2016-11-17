@@ -20,8 +20,9 @@ int xdot = random(8);
 int ydot = random(8);
 int xbomb = random(8);            // Draws out the enemy bomb
 int ybomb = random(8);
-int xwall = random(8);
-int ywall = random(8);
+int xwall = 6;
+int ywall = 4;
+int binary = 0;
 int speed = 200;
 int timer = 0;
 int dir;
@@ -43,7 +44,8 @@ void loop()                     // run over and over again
   DrawPx(xwall,ywall,Orange);     // Spawwn random walls and have them make other walls                             
   int dir;
   int choice = random(2);  
-  if (choice == 1)   
+  if (choice == 1)
+  {   
      dir = 0;
      {
       for (int i=0 ;i < xgap; i++)
@@ -53,47 +55,45 @@ void loop()                     // run over and over again
         Serial.print("  ");
         Serial.println(i);
       }
-     }   
-  if (choice == 2)
+     }
+  }   
+  else
+  {
      dir = 90;
      {
       for (int i=0; i< ygap; i++)
       DrawPx(xwall,ywall + i,Orange);
      }
+  }
+  // Savescreen();
+  
   DrawPx(xpear,ypear,Green); 
   DrawPx(xdot,ydot,Blue);
   DrawPx(xbomb,ybomb,Red);
-
-  
-  if (xpear == xdot && ypear == ydot)        
-  {      
-    xdot = random(8);        
-    ydot = random(8);
-  }
-  if (xpear == xbomb && ypear == ybomb)      
-  {
-    xbomb = random(8);
-    ybomb = random(8);                         
-  }
-  if (xdot == xbomb && ydot == ybomb)
-  {
-    xdot = random(8);
-    ydot = random(8);
-  }
- 
+  update(); 
   
   // Have eaten pear
   if (ReadPx(xdot,ydot)==Green)
   {
-    xpear=random(8);
-    ypear=random(8);
-  }
-  update();            
+   xpear=random(8);
+   ypear=random(8);
+   if (binary < 128)
+   {
+    binary = binary * 2 + 1;
+   }
+   else
+   {
+    binary = 0; 
+    speed = 200;
+   }
+  } 
+  
+  SetAuxLEDs(binary);
+  DisplaySlate();
   delay(speed);
   CheckButtonsPress();
-  DisplaySlate();
   ClearSlate();
-   if (Button_Right)
+  if (Button_Right)
   {
     direction=90;
   }
@@ -149,3 +149,14 @@ if (direction == 270)
 
 }
 }
+void Savescreen()                     // Got from Mr.Kiang's Github
+{
+ for (int x = 0; x < 8; x++)
+ {
+  for (int y = 0; y < 8; x++)
+  {
+   Savescreen[x][y] = ReadPx(x,y);
+  }
+ }  
+}
+
