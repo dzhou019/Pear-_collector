@@ -12,16 +12,16 @@
  * http://www.arduino.cc/en/Tutorial/Blink
  */
 #include <MeggyJrSimple.h>    // Required code, line 1 of 2.
+int screen [8][8]; 
+
 int x=0;
 int y=0;
 int xpear = random(8);
 int ypear = random(8);
 int xdot = random(8);
 int ydot = random(8);
-int xbomb = random(8);            // Draws out the enemy bomb
-int ybomb = random(8);
-int xwall = 6;
-int ywall = 4;
+int xwall = random(8);
+int ywall = random(8);
 int binary = 0;
 int speed = 200;
 int timer = 0;
@@ -32,6 +32,8 @@ int xgap = 2;
 int ygap = 4;
 int direction;
 boolean gotpear=true;
+boolean generate=true;
+
 void setup()                    // run once, when the sketch starts
 {
   MeggyJrSimpleSetup(); 
@@ -41,35 +43,17 @@ void setup()                    // run once, when the sketch starts
 void loop()                     // run over and over again
 {
                   
-  DrawPx(xwall,ywall,Orange);     // Spawwn random walls and have them make other walls                             
+//  DrawPx(xwall,ywall,Orange);     // Spawwn random walls and have them make other walls                             
   int dir;
   int choice = random(2);  
-  if (choice == 1)
-  {   
-     dir = 0;
-     {
-      for (int i=0 ;i < xgap; i++)
-      {
-        DrawPx(xwall + i,ywall,Orange);
-        Serial.print(xgap);
-        Serial.print("  ");
-        Serial.println(i);
-      }
-     }
-  }   
-  else
+  if (generate == true)
   {
-     dir = 90;
-     {
-      for (int i=0; i< ygap; i++)
-      DrawPx(xwall,ywall + i,Orange);
-     }
+    wall();
   }
-  // Savescreen();
+  Savescreen();
   
   DrawPx(xpear,ypear,Green); 
   DrawPx(xdot,ydot,Blue);
-  DrawPx(xbomb,ybomb,Red);
   update(); 
   
   // Have eaten pear
@@ -89,9 +73,10 @@ void loop()                     // run over and over again
   } 
   
   SetAuxLEDs(binary);
+  DisplayScreen();
   DisplaySlate();
   delay(speed);
-  CheckButtonsPress();
+  CheckButtonsDown();
   ClearSlate();
   if (Button_Right)
   {
@@ -155,8 +140,49 @@ void Savescreen()                     // Got from Mr.Kiang's Github
  {
   for (int y = 0; y < 8; x++)
   {
-   Savescreen[x][y] = ReadPx(x,y);
+   screen[x][y] = ReadPx(x,y);      // create an array named screen
   }
  }  
+}
+void DisplayScreen()               // Mr. Kiang's rotate code used
+{
+  ClearSlate();
+  for (int x = 0; x < 8; x++)
+ {
+  for (int y = 0; y < 8; x++)
+  {
+   screen[x][y] = ReadPx(x,y);
+  }
+ }
+  
+}
+void wall()
+{
+  int choice = random(2);  
+  if (choice == 1)
+  {   
+     dir = 0;
+     {
+      xgap = 8 - xwall;
+      for (int i=0 ;i < xgap; i++)
+      {
+        DrawPx(xwall + i,ywall,Orange);
+        Serial.print(xgap);
+        Serial.print("  ");
+        Serial.println(i);
+      }
+     }
+  }   
+  else
+  {
+     dir = 90;
+     {
+      ygap = 8 - ywall;
+      for (int i=0; i< ygap; i++)
+      DrawPx(xwall,ywall + i,Orange);
+     }
+  }
+
+  generate=false;
 }
 
