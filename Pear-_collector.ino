@@ -50,7 +50,7 @@ void loop()                     // run over and over again
   {
     wall();
   }
-  Savescreen();
+  //Savescreen();
   
   DrawPx(xpear,ypear,Green); 
   DrawPx(xdot,ydot,Blue);
@@ -156,6 +156,19 @@ void DisplayScreen()               // Mr. Kiang's rotate code used
  }
   
 }
+void PrintScreen()
+{
+ for (int x = 0; x < 8; x++)
+ {
+  for (int y = 0; y < 8; x++)
+  {
+   Serial.print(screen[x][y]);
+   Serial.print(" ");
+  }
+  Serial.println();
+ }
+}
+
 void wall()
 {
   int choice = random(2);  
